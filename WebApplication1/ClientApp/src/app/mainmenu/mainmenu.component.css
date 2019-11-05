@@ -1,0 +1,52 @@
+.main-menu {
+  text-align: center;
+  padding: 10px;
+}
+
+.main-menu a {
+  text-decoration: none;
+  text-transform: uppercase;
+  margin-right: 20px;
+}
+
+.nav-item.active a {
+  font-weight: bold;
+  border-bottom: 3px solid green;
+}
+
+@media screen and (max-width:992px) {
+  .navbar {
+    position: absolute;
+    top: 15px;
+    right: 0px;
+    width: 100%;
+  }
+
+  .navbar-nav {
+    padding-top: 75px;
+  }
+
+  .main-menu a {
+    margin-right: 0px;
+  }
+
+  .nav-link {
+    border: 1px solid #FFF;
+    padding: 20px 0px;
+  }
+
+  .navbar-collapse {
+    background-color: rebeccapurple;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    width: 100%;
+    z-index: 1;
+    overflow: hidden;
+    height: 800px;
+  }
+
+  .navbar-toggler {
+    z-index: 11;
+  }
+}

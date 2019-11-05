@@ -1,0 +1,7 @@
+.main-promo-image {
+  background-image: url('../../assets/img/homepage.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: bottom left;
+  height: 400px;
+}

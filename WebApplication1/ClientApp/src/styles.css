@@ -1,0 +1,68 @@
+body {
+  margin: 0px;
+  padding: 0px;
+  font-size: 18px;
+}
+
+input {
+  padding: 10px 10px;
+}
+
+.primary-background {
+  background-color: aliceblue;
+}
+
+.btn-custom {
+  padding: 10px 30px;
+}
+
+.input-sm {
+  width: 70%;
+  padding: 0px;
+  font-size: 1em;
+}
+
+.m-0-auto {
+  margin: 0 auto;
+}
+
+.background-beige {
+  background-color: beige;
+}
+
+.initial-hide {
+  display: none;
+}
+
+.social-section a,
+.logo-area a {
+  text-decoration: none;
+}
+
+.section-title {
+  font-weight: bold;
+  border-bottom: 2px solid;
+  text-align: center;
+  text-transform: uppercase;
+  color: crimson;
+  font-size: 22px;
+  padding: 20px 0px;
+  margin-bottom: 20px;
+}
+
+.category-title {
+  font-size: 18px;
+  text-align: center;
+  font-weight: bold;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+.secondary-page-title {
+  padding: 10px;
+  text-align: center;
+  font-size: 30px;
+  color: green;
+  font-weight: bold;
+  text-transform: uppercase;
+}

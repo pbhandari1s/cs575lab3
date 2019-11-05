@@ -1,0 +1,10 @@
+@media screen and (max-width:992px) {
+  .social-section {
+    text-align: left;
+    padding-top: 15px;
+  }
+}
+
+.social-section {
+  text-align: right;
+}

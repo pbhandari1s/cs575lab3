@@ -1,0 +1,12 @@
+<form class="form-inline my-2 my-lg-0">
+  <input #searchBox class="form-control mr-sm-2 w-75" type="search" placeholder="Search" aria-label="Search"
+    (input)="search(searchBox.value)">
+
+  <ul class="search-result">
+    <li *ngFor="let blog of blogs$ | async">
+      <a routerLink="/blogpost/{{blog.id}}">
+        {{blog.title}}
+      </a>
+    </li>
+  </ul>
+</form>

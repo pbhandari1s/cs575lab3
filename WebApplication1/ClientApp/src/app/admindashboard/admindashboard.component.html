@@ -1,0 +1,45 @@
+<div class="container-fluid secondary-promo-image">
+
+</div>
+
+<div class="container-fluid background-beige">
+  <div class="secondary-page-title">
+    <div class="container">
+      <p>Blog Admin</p>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid pt-3 primary-background">
+  <div class="container pb-3">
+    <div class="row">
+      <div class="col-lg-6">
+        <a routerLink="/categoryupdate/0">
+          Add New Category
+        </a>
+        <ul class="blogs">
+          <li *ngFor="let category of categories">
+            <a routerLink="/categoryupdate/{{category.id}}">
+              <span class="badge">{{category.id}}</span> {{category.title}}
+            </a>
+            <button class="delete" title="Delete" (click)="deleteCategory(category)">x</button>
+          </li>
+        </ul>
+      </div>
+      <div class="col-lg-6">
+        <a routerLink="/blogupdate/0">
+          Add New Blog
+        </a>
+        <ul class="blogs">
+          <li *ngFor="let blog of blogs">
+            <a routerLink="/blogupdate/{{blog.id}}">
+              <span class="badge">{{blog.id}}</span> {{blog.title}}
+            </a>
+            <button class="delete" title="Delete" (click)="deleteBlog(blog)">x</button>
+          </li>
+        </ul>
+      </div>
+    </div>
+    
+  </div>
+</div>
