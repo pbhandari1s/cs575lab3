@@ -4,6 +4,8 @@ import { Component, OnInit } from '@angular/core';
 import { BlogsService } from '../blogs.service';
 import { Category } from '../Category';
 import { CategoriesService } from '../category.service';
+import { JwtHelperService } from '@auth0/angular-jwt';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-admindashboard',
@@ -16,11 +18,18 @@ export class AdmindashboardComponent implements OnInit {
 
   constructor(
     private blogService: BlogsService,
-    private categoryService: CategoriesService) { }
+    private categoryService: CategoriesService,
+    private jwtHelper: JwtHelperService,
+    private router: Router) { }
 
   ngOnInit() {
-    this.getBlogs();
-    this.getCategories();
+    if (this.isUserAuthenticated) {
+      this.getBlogs();
+      this.getCategories();
+    }
+    else {
+      this.router.navigate(["login"]);
+    }
   }
 
   getBlogs(): void {
@@ -42,4 +51,20 @@ export class AdmindashboardComponent implements OnInit {
     this.categories = this.categories.filter(h => h !== category);
     this.categoryService.deleteCategory(category).subscribe();
   }
+
+  isUserAuthenticated() {
+    let token: string = localStorage.getItem("jwt");
+    if (token && !this.jwtHelper.isTokenExpired(token)) {
+      console.log(this.jwtHelper.decodeToken(token));
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
+
+  logOut() {
+    localStorage.removeItem("jwt");
+    this.router.navigate(["/"]);
+  } 
 }

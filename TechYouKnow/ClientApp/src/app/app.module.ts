@@ -31,6 +31,13 @@ import { SubscribeComponent } from './subscribe/subscribe.component';
 import { SubscribeconfirmationComponent } from './subscribeconfirmation/subscribeconfirmation.component';
 import { CategoryupdateComponent } from './categoryupdate/categoryupdate.component';
 import { CategoriesService } from './category.service';
+import { AuthGuard } from './auth-guard.service';
+import { LoginComponent } from './login/login.component';
+import { JwtModule, JwtHelperService } from '@auth0/angular-jwt';
+
+export function tokenGetter() {
+  return localStorage.getItem('jwt');
+}
 
 @NgModule({
   declarations: [
@@ -58,12 +65,20 @@ import { CategoriesService } from './category.service';
     SimplesearchComponent,
     SimplesubscribeComponent,
     SubscribeComponent,
-    SubscribeconfirmationComponent
+    SubscribeconfirmationComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
     FormsModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: tokenGetter,
+        whitelistedDomains: ['localhost:44326'],
+        blacklistedRoutes: []
+      }
+    }),
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'secondary', component: SecondaryComponent },
@@ -72,14 +87,18 @@ import { CategoriesService } from './category.service';
       { path: 'searchresult/:text', component: SearchresultComponent },
       { path: 'subscribeconfirmation/:email', component: SubscribeconfirmationComponent },
       { path: 'formsuccessful', component: FormsuccessfulComponent },
-      { path: 'blogadmin', component: AdmindashboardComponent },
-      { path: 'blogupdate/:id', component: BlogupdateComponent },
-      { path: 'categoryupdate/:id', component: CategoryupdateComponent }
+      { path: 'blogadmin', component: AdmindashboardComponent, canActivate: [AuthGuard] },
+      { path: 'blogupdate/:id', component: BlogupdateComponent, canActivate: [AuthGuard] },
+      { path: 'categoryupdate/:id', component: CategoryupdateComponent, canActivate: [AuthGuard] },
+      { path: 'login', component: LoginComponent }
+
     ])
   ],
   providers: [
     BlogsService,
-    CategoriesService
+    CategoriesService,
+    JwtHelperService,
+    AuthGuard
   ],
   bootstrap: [AppComponent]
 })

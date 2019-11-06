@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -80,9 +81,14 @@ namespace TechYouKnow.Controllers
         // GET: api/BlogPosts
         [HttpGet]
         [EnableCors("AllowAllHeaders")]//CORS error No 'Access-Control-Allow-Origin' header
-        public async Task<ActionResult<IEnumerable<BlogPost>>> GetBlogPosts()
+        public async Task<ActionResult<IEnumerable<BlogPost>>> GetBlogPosts(string title="")
         {
-            return await _context.BlogPosts.ToListAsync();
+            var result = await _context.BlogPosts.ToListAsync();
+
+            if (!string.IsNullOrEmpty(title))
+                result = result.Where(x => x.Title.ToLower().Contains(title.ToLower())).ToList();
+
+            return result;
         }
 
         // GET: api/BlogPosts/5
@@ -101,7 +107,7 @@ namespace TechYouKnow.Controllers
         }
 
         // PUT: api/BlogPosts/5
-        [HttpPut("{id}")]
+        [HttpPut("{id}"), Authorize(Roles = "Admin")]
         [EnableCors("AllowAllHeaders")]//CORS error No 'Access-Control-Allow-Origin' header
         public async Task<IActionResult> PutBlogPost(int id, BlogPost blogPost)
         {
@@ -132,7 +138,7 @@ namespace TechYouKnow.Controllers
         }
 
         // POST: api/BlogPosts
-        [HttpPost]
+        [HttpPost, Authorize(Roles = "Admin")]
         [EnableCors("AllowAllHeaders")]//CORS error No 'Access-Control-Allow-Origin' header
         public async Task<ActionResult<BlogPost>> PostBlogPost(BlogPost blogPost)
         {
@@ -143,7 +149,7 @@ namespace TechYouKnow.Controllers
         }
 
         // DELETE: api/BlogPosts/5
-        [HttpDelete("{id}")]
+        [HttpDelete("{id}"), Authorize(Roles = "Admin")]
         [EnableCors("AllowAllHeaders")]//CORS error No 'Access-Control-Allow-Origin' header
         public async Task<ActionResult<BlogPost>> DeleteBlogPost(int id)
         {

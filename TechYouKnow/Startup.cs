@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -6,6 +7,8 @@ using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 using TechYouKnow.Data;
 
 namespace WebApplication1
@@ -38,10 +41,27 @@ namespace WebApplication1
                       {
                           builder.AllowAnyOrigin()
                                  .AllowAnyHeader()
-                                 .AllowAnyMethod();
+                                 .AllowCredentials()
+                                 .AllowAnyMethod()
+                                 .Build();
                       });
             });
 
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+               .AddJwtBearer(options =>
+               {
+                   options.TokenValidationParameters = new TokenValidationParameters
+                   {
+                       ValidateIssuer = true,
+                       ValidateAudience = true,
+                       ValidateLifetime = true,
+                       ValidateIssuerSigningKey = true,
+
+                       ValidIssuer = "https://localhost:44382",
+                       ValidAudience = "https://localhost:44382",
+                       IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("cs506@coreangular"))
+                   };
+               });
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
@@ -67,6 +87,7 @@ namespace WebApplication1
             // Shows UseCors with named policy.
             //CORS error No 'Access-Control-Allow-Origin' header
             app.UseCors("AllowAllHeaders");
+            app.UseAuthentication();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();

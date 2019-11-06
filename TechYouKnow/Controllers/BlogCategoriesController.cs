@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -57,7 +58,7 @@ namespace TechYouKnow.Controllers
         }
 
         // PUT: api/BlogCategories/5
-        [HttpPut("{id}")]
+        [HttpPut("{id}"), Authorize]
         public async Task<IActionResult> PutBlogCategory(int id, BlogCategory blogCategory)
         {
             if (id != blogCategory.Id)
@@ -87,7 +88,7 @@ namespace TechYouKnow.Controllers
         }
 
         // POST: api/BlogCategories
-        [HttpPost]
+        [HttpPost, Authorize]
         public async Task<ActionResult<BlogCategory>> PostBlogCategory(BlogCategory blogCategory)
         {
             _context.BlogCategories.Add(blogCategory);
@@ -97,7 +98,7 @@ namespace TechYouKnow.Controllers
         }
 
         // DELETE: api/BlogCategories/5
-        [HttpDelete("{id}")]
+        [HttpDelete("{id}"), Authorize]
         public async Task<ActionResult<BlogCategory>> DeleteBlogCategory(int id)
         {
             var blogCategory = await _context.BlogCategories.FindAsync(id);

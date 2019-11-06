@@ -9,8 +9,15 @@ import { MessagesService } from './messages.service';
 
 //CORS error No 'Access-Control-Allow-Origin' header
 const httpOptions = {
-  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+  headers: new HttpHeaders({
+    'Authorization': 'Bearer ' + tokenGetter(),
+    'Content-Type': 'application/json'
+  })
 };
+
+export function tokenGetter() {
+  return localStorage.getItem('jwt');
+}
 @Injectable({
   providedIn: 'root'
 })
@@ -61,7 +68,7 @@ export class BlogsService {
       // if not search term, return empty hero array.
       return of([]);
     }
-    return this._http.get<Blog[]>(`${this._url}/?title=${term}`).pipe(
+    return this._http.get<Blog[]>(`${this._url}?title=${term}`).pipe(
       tap(_ => this.log(`found blogs matching "${term}"`)),
       catchError(this.handleError<Blog[]>('searchBlogs', []))
     );

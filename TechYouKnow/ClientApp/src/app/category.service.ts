@@ -7,10 +7,18 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { throwError } from 'rxjs';
 import { MessagesService } from './messages.service';
 
+export function tokenGetter() {
+  return localStorage.getItem('jwt');
+}
+
 //CORS error No 'Access-Control-Allow-Origin' header
 const httpOptions = {
-  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+  headers: new HttpHeaders({
+    'Content-Type': 'application/json',
+    'Authorization': 'Bearer ' + tokenGetter(),
+  })
 };
+
 @Injectable({
   providedIn: 'root'
 })

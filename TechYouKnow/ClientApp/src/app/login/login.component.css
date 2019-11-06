@@ -1,0 +1,20 @@
+.secondary-promo-image {
+  background-image: url(../../assets/img/secondary.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  height: 200px;
+}
+
+.login-form
+{
+  max-width:600px;
+  margin: 50px auto;
+}
+
+@media all (max-width:767px)
+{
+  .login-form {
+    max-width:100%;
+  }
+}
